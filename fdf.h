@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/26 13:14:00 by chuang            #+#    #+#             */
-/*   Updated: 2015/01/27 12:49:38 by chuang           ###   ########.fr       */
+/*   Created: 2015/01/26 13:53:15 by chuang            #+#    #+#             */
+/*   Updated: 2015/01/27 17:00:37 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <fnctl.h>
-#include "libft.h"
+#ifndef FDF_H
+# define FDF_H
 
-int		main(int ac, char **av)
+
+typedef struct		s_line
 {
-	int fd;
+	int				**line;
+	struct s_buff	*next;
+}					t_line;
 
-	if (ac == 2)
-	{
-		if ((fd = open(av[1], O_RONLY)) == -1)
-		{
-			ft_putendl("An error has occur during open");
-			exit(0);
-		}
-		//TODO retrieve intel
-		ft_print(fd);
-		
-		if (close(fd) == -1)
-		{
-			ft_putendl("an error has occur during close");
-		exit(0);
-		}
-	}
-	else
-		ft_putendl("invalid argument");
-}
+typedef struct		s_coord
+{
+	int				x;
+	int				y;
+	int				z;
+}					t_coord;
+typedef struct		s_env
+{
+	void			*mlx;
+	void			*win;
+}					t_env;
+#endif

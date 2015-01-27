@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   tracer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/26 14:57:46 by chuang            #+#    #+#             */
-/*   Updated: 2015/01/27 17:51:15 by chuang           ###   ########.fr       */
+/*   Created: 2015/01/27 17:40:15 by chuang            #+#    #+#             */
+/*   Updated: 2015/01/27 17:52:43 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,5 @@ void	draw(t_env *e, int fd)
 		first = first->next;
 		p1.y++;
 	}
-
-}
-
-int		key_hook(int keycode, t_env *e)
-{
-	if (keycode == 65307)
-		exit(0);
-	return (0);
-}
-
-int		exoise_hook(t_env *e)
-{
-	draw(e->mlx, e->win);
-	return (0);
-}
-
-int		ft_print(int fd)
-{
-	t_env *e;
-
-	e->mlx = mlx_init();
-	e->win = mlx_new_window(e->mlx, 420, 420, "flyingcow"); //TODO Set the size
-	mlx_key_hook(e->win, key_hook, e);
-	mlx_expose_hook(e.win, expose_hook, e);
-	mlx_loop(e->mlx);
 }
 

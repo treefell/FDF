@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 16:29:58 by chuang            #+#    #+#             */
-/*   Updated: 2014/11/09 17:47:20 by chuang           ###   ########.fr       */
+/*   Updated: 2015/02/04 17:56:46 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ char			**ft_strsplit(char const *s, char csplit)
 		}
 		else
 			i++;
-	tab[nbword] = 0;
+	tab[nbword] = NULL;
 	return (tab);
 }

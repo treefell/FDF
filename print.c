@@ -6,98 +6,45 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/26 14:57:46 by chuang            #+#    #+#             */
-/*   Updated: 2015/01/27 17:51:15 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/14 16:39:24 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <mlx.h>
 
-void	tracerseg(t_coord v1, t_coord v2, void *mlx, void *win)
-{
-	t_coord d;
-	t_coord e;
-	t_coord s;
-
-	d.x = abs(v2.x - v1.x);
-	s.x = v1.x < v2.x ? 1 : -1;
-	d.y = abs(v2.y - v1.y);
-	s.y = v1.y < v2.y ? 1 : -1;
-	e.x = (d.x > d.y ? d.x : -d.y) / 2;
-	while (v1.x == v2.x && v1.y == v2.y)
-	{
-		mlx_pixel_put(mlx, win, v1.x, v1.y, 0xFF0000);
-		e.y = e.x;
-		if (e2 > -d.x)
-		{
-			e.x -= d.y;
-			v1.x += s.x;
-		}
-		if (e.y < d.y)
-		{
-			e.x += d.x;
-			v1.y += s.y;
-		}
-	}
-}
-
-void	draw(t_env *e, int fd)
-{
-	t_line		*first;
-	t_coord		p1;
-	t_coord		p2;
-
-	p1.y = 0;
-	first = ft_tablstint(fd);
-	while (first)
-	{
-		p1.x = 0;
-		while (first[p1.x])
-		{
-			p1.z = first[p1.x];
-			if (first[/*p2 = */p1.x + 1])
-			{
-				p2.x = p1.x + 1;
-				p2.y = p1.y;
-				p2.z = first[p2.x];
-				tracerseg(p1, p2, e->mlx, e->win);
-			}
-			if (first->next && first->next[p1.x])
-			{
-				p2.x = p1.x;
-				p2.y = p1.y + 1;
-				p2.z = first->next[p2.x];
-				tracerseg(p1, p2, e->mlx, e->win);
-			}
-			p1.x++;
-		}
-		first = first->next;
-		p1.y++;
-	}
-
-}
 
 int		key_hook(int keycode, t_env *e)
 {
+	if (e == NULL)
+		exit (0); //change to something needed
 	if (keycode == 65307)
 		exit(0);
 	return (0);
 }
 
-int		exoise_hook(t_env *e)
+int		expose_hook(t_env *e)
 {
-	draw(e->mlx, e->win);
+	draw(e);
 	return (0);
 }
 
-int		ft_print(int fd)
+int		ft_print(t_line *first)
 {
 	t_env *e;
 
+	if ((e = malloc(sizeof(t_env))) == NULL)
+		exit (0);
 	e->mlx = mlx_init();
-	e->win = mlx_new_window(e->mlx, 420, 420, "flyingcow"); //TODO Set the size
+	e->first = first;
+	e->zheight = 4;
+	e->gap = 25;
+	e->length = countlength(first) * e->gap * 2;
+	e->height = countheight(first) * e->gap * 2;
+	e->win = mlx_new_window(e->mlx, e->length, e->height, "flyingcow");
 	mlx_key_hook(e->win, key_hook, e);
-	mlx_expose_hook(e.win, expose_hook, e);
+	mlx_expose_hook(e->win, expose_hook, e);
 	mlx_loop(e->mlx);
+	return (0);
 }
 

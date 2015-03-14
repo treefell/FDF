@@ -6,74 +6,96 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/26 13:30:11 by chuang            #+#    #+#             */
-/*   Updated: 2015/01/27 17:51:07 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/14 17:26:58 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
+#include <fcntl.h>
 
-static t_line	set_line(int **line, t_line *next)
+static t_line		*set_line(int nbint, int *tab, t_line *next)
 {
-	t_line	*tmp;
-	int		i;
+	t_line		*tmp;
 
-	if (tmp = malloc(sizeof(t_line*) == NULL))
-			exit(0);
-	i = 0;
-	while (line[i])
-	{
-		tmp->line[i] = line[i];
-		i++;
-	}
-	tmp->line[i] = line[i];
+	if ((tmp = malloc(sizeof(t_line) + 1)) == NULL)
+		return (NULL);
+	tmp->nbint = nbint;
+	tmp->line = tab;
 	tmp->next = next;
 	return (tmp);
 }
 
-static int		**gnretrieve(int fd)
+int				countheight(t_line *first)
 {
-	char	**line;
-	int		**ret;
-	int		i;
+	int i;
 
-	if (line = malloc(sizeof(char**) == NULL))
-			exit(0);
-	if (i = get_next_line(fd, line) == -1)
-		exit(0);
-	else if (i == 0)
-		return (NULL);
-	line = ft_strsplit(*line);
-	
-		
-	if (ret = malloc(sizeof(int**) == NULL))
-		exit(0);
 	i = 0;
-	while (line[i])
+	while (first != NULL)
 	{
-		ret[i] = ft_atoi(line[i]);
-		ft_getnbr(ret[i]);
+		first =first->next;
 		i++;
 	}
-	ret[i] = NULL;
-	return (ret);
+	return i;
 }
 
-t_line			*ft_tablstint(int fd)
+int				countlength(t_line *first)
 {
+	int		i;
+
+	i = 0;
+	while (first != NULL)
+	{
+		if (i < first->nbint)
+			i = first->nbint;
+		first = first->next;
+	}
+	return (i);
+}
+
+static int				*gnl_int(int fd)
+{
+	char	*line;
+	char	**split;
+	int		*tab;
+	int		i;
+
+	if(get_next_line(fd, &line) == 0)
+		return (NULL);
+	i = 0;
+	split = ft_strsplit(line, ' ');
+	while (split[i])
+		i++;
+	if (((tab = malloc(sizeof(int*) * i + 1))) == NULL)
+		exit (0);
+	tab[0] = i;
+	i = 0;
+	while (i < tab[0])
+	{
+		tab[i + 1] = ft_atoi(split[i]);
+		i++;
+	}
+	free(split);
+	return (tab);
+}
+
+t_line			*lst_tabint(char *av)
+{
+	int			fd;
+	int			*tab;
 	t_line		*first;
 	t_line		*tmp;
-	t_line		*new;
-	int			**tab;
 
-	if (tab = malloc(sizeof(int**) == NULL))
-		exit(0);
-	if ((tab = gnretrieve(fd)))
-	first = set_line(tab, NULL);
+	if ((fd = open(av, O_RDONLY)) < 1)
+		exit (0);
+	if ((tab = gnl_int(fd)) == NULL)
+		return (NULL);
+	first = set_line(tab[0], &tab[1], NULL);
 	tmp = first;
-	while(tab = gnretrieve(fd))
+	while ((tab = gnl_int(fd)) != NULL)
 	{
-		new = setline(tab, NULL);
-		tmp->next = new;
-		tmp = new;
+		tmp->next = set_line(tab[0], &tab[1], NULL);
+		tmp = tmp->next;
 	}
+	if (close(fd) == -1)
+		exit (0);
 	return (first);
 }

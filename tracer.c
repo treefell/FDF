@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/27 17:40:15 by chuang            #+#    #+#             */
-/*   Updated: 2015/03/14 17:05:39 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/20 13:07:07 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ t_coord		conv_iso(t_coord p, t_env *e)
 {
 	t_coord	ret;
 
-	ret.x = 0.82 * p.x - 0.82 * p.y + e->length/3;
-	ret.y = -p.z *e->zheight + (0.82/2.0)
-		* p.x + (0.82/2.0) * (p.y) + e->height/3;
+	p.z = p.z * e->zheight;
+	ret.x = 0.82 * p.x - 0.82 * p.y + (e->length - e->size.x / 2) + e->posx;
+	ret.y = -p.z + (0.82/2.0)
+		* p.x + (0.82/2.0) * (p.y) + (e->height - e->size.y / 2) + e->posy;
 	ret.z = p.z;
+//	ret.col = color(p);
 	return (ret);
 }
 
@@ -48,7 +50,7 @@ void			tracerseg(t_coord v1, t_coord v2, t_env *env)
 	e.x = (d.x > d.y ? d.x : -d.y) / 2;
 	while (v1.x != v2.x || v1.y != v2.y)
 	{
-		mlx_pixel_put(env->mlx, env->win, v1.x, v1.y , 0xFF0000);
+		mlx_pixel_put(env->mlx, env->win, v1.x, v1.y , env.col);
 		e.y = e.x;
 		if (e.y > -d.x)
 		{
@@ -78,7 +80,6 @@ void			draw(t_env *e)
 		x = 0;
 		while (x < first->nbint)
 		{
-			ft_putnbr(first->line[x]);
 			p1 = setcoord(e->gap * (x), e->gap * (y), first->line[x]);
 			if (x + 1 < first->nbint)
 			{
@@ -92,7 +93,6 @@ void			draw(t_env *e)
 			}
 			x++;
 		}
-		ft_putendl("");
 		first = first->next;
 		y++;
 	}

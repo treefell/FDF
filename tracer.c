@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/27 17:40:15 by chuang            #+#    #+#             */
-/*   Updated: 2015/03/20 13:07:07 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/24 21:08:52 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,19 @@
 #include <mlx.h>
 #include <stdio.h>
 
-t_coord		conv_iso(t_coord p, t_env *e)
+t_coord			conv_iso(t_coord p, t_env *e)
 {
 	t_coord	ret;
 
 	p.z = p.z * e->zheight;
 	ret.x = 0.82 * p.x - 0.82 * p.y + (e->length - e->size.x / 2) + e->posx;
-	ret.y = -p.z + (0.82/2.0)
-		* p.x + (0.82/2.0) * (p.y) + (e->height - e->size.y / 2) + e->posy;
+	ret.y = -p.z + (0.82 / 2.0)
+		* p.x + (0.82 / 2.0) * (p.y) + (e->height - e->size.y / 2) + e->posy;
 	ret.z = p.z;
-//	ret.col = color(p);
 	return (ret);
 }
 
-t_coord		setcoord(int x, int y, int z)
+t_coord			setcoord(int x, int y, int z)
 {
 	t_coord		new;
 
@@ -50,7 +49,7 @@ void			tracerseg(t_coord v1, t_coord v2, t_env *env)
 	e.x = (d.x > d.y ? d.x : -d.y) / 2;
 	while (v1.x != v2.x || v1.y != v2.y)
 	{
-		mlx_pixel_put(env->mlx, env->win, v1.x, v1.y , env.col);
+		put_pixel(env, v1, v2);
 		e.y = e.x;
 		if (e.y > -d.x)
 		{

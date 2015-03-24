@@ -6,15 +6,16 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/26 13:30:11 by chuang            #+#    #+#             */
-/*   Updated: 2015/03/14 17:26:58 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/24 21:04:18 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "fdf.h"
 #include <fcntl.h>
 
 static t_line		*set_line(int nbint, int *tab, t_line *next)
 {
-	t_line		*tmp;
+	t_line			*tmp;
 
 	if ((tmp = malloc(sizeof(t_line) + 1)) == NULL)
 		return (NULL);
@@ -24,22 +25,22 @@ static t_line		*set_line(int nbint, int *tab, t_line *next)
 	return (tmp);
 }
 
-int				countheight(t_line *first)
+int					countheight(t_line *first)
 {
-	int i;
+	int			i;
 
 	i = 0;
 	while (first != NULL)
 	{
-		first =first->next;
+		first = first->next;
 		i++;
 	}
-	return i;
+	return (i);
 }
 
-int				countlength(t_line *first)
+int					countlength(t_line *first)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (first != NULL)
@@ -51,14 +52,14 @@ int				countlength(t_line *first)
 	return (i);
 }
 
-static int				*gnl_int(int fd)
+static int			*gnl_int(int fd)
 {
-	char	*line;
-	char	**split;
-	int		*tab;
-	int		i;
+	char		*line;
+	char		**split;
+	int			*tab;
+	int			i;
 
-	if(get_next_line(fd, &line) == 0)
+	if (get_next_line(fd, &line) == 0)
 		return (NULL);
 	i = 0;
 	split = ft_strsplit(line, ' ');
@@ -77,7 +78,7 @@ static int				*gnl_int(int fd)
 	return (tab);
 }
 
-t_line			*lst_tabint(char *av)
+t_line				*lst_tabint(char *av)
 {
 	int			fd;
 	int			*tab;

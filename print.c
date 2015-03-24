@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/26 14:57:46 by chuang            #+#    #+#             */
-/*   Updated: 2015/03/19 17:03:49 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/24 21:02:15 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,30 @@
 int		expose_hook(t_env *e)
 {
 	draw(e);
-	return(0);
+	return (0);
 }
 
 int		key_hook(int keycode, t_env *e)
 {
-	if (keycode == 115)
+	if (keycode == KEY_S)
 		e->zheight--;
-	if (keycode == 119)
+	if (keycode == KEY_W)
 		e->zheight++;
-	if (keycode == 65364)
-		e->posy++;
-	if (keycode == 65362)
-		e->posy--;
-	if(keycode == 65363)
-		e->posx++;
-	if(keycode == 65361)
-		e->posx--;
-	if(keycode == 65453)
+	if (keycode == KEY_DOWN)
+		e->posy += 10;
+	if (keycode == KEY_UP)
+		e->posy -= 10;
+	if (keycode == KEY_RIGHT)
+		e->posx += 10;
+	if (keycode == KEY_LEFT)
+		e->posx -= 10;
+	if (keycode == KEY_MINUS)
 		e->gap--;
-	if(keycode ==65451)
+	if (keycode == KEY_PLUS)
 		e->gap++;
-	if (keycode == 65307)
+	if (keycode == KEY_C)
+		set_pal(e);
+	if (keycode == KEY_ESC)
 		exit(0);
 	draw(e);
 	mlx_clear_window(e->mlx, e->win);
@@ -58,14 +60,13 @@ int		ft_print(t_line *first)
 	e->length = countlength(first) * e->gap;
 	e->height = countheight(first) * e->gap;
 	e->size.x = 0.82 * e->length - 0.82 * e->height;
-	e->size.y = /*countzheight * e->zheight +*/ (0.82/2.0)
-		* e->length + (0.82/2.0) * e->height;
+	e->size.y = (0.82 / 2.0) * e->length + (0.82 / 2.0) * e->height;
 	e->posx = 0;
 	e->posy = 0;
+	set_pal(e);
 	e->win = mlx_new_window(e->mlx, e->length * 2, e->height * 2, "flyingcow");
 	mlx_key_hook(e->win, key_hook, e);
 	mlx_expose_hook(e->win, expose_hook, e);
 	mlx_loop(e->mlx);
 	return (0);
 }
-

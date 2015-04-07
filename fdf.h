@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/26 13:53:15 by chuang            #+#    #+#             */
-/*   Updated: 2015/03/24 21:13:07 by chuang           ###   ########.fr       */
+/*   Updated: 2015/03/26 15:51:10 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct		s_env
 	int				height;
 	int				gap;
 	int				zheight;
-	int				col[3];
+	int				col[4];
 }					t_env;
 
 t_line				*lst_tabint(char *av);

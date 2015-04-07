@@ -6,13 +6,12 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/27 17:40:15 by chuang            #+#    #+#             */
-/*   Updated: 2015/03/24 21:08:52 by chuang           ###   ########.fr       */
+/*   Updated: 2015/04/04 15:22:36 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <mlx.h>
-#include <stdio.h>
 
 t_coord			conv_iso(t_coord p, t_env *e)
 {
@@ -64,34 +63,40 @@ void			tracerseg(t_coord v1, t_coord v2, t_env *env)
 	}
 }
 
-void			draw(t_env *e)
+void			drawline(t_line *first, t_env *e, int y)
 {
-	t_line		*first;
 	t_coord		p1;
 	t_coord		p2;
 	int			x;
+
+	x = 0;
+	while (x < first->nbint)
+	{
+		p1 = setcoord(e->gap * (x), e->gap * (y), first->line[x]);
+		if (x + 1 < first->nbint)
+		{
+			p2 = setcoord(e->gap * (x + 1), e->gap * (y), first->line[x + 1]);
+			tracerseg(conv_iso(p1, e), conv_iso(p2, e), e);
+		}
+		if (first->next && x < first->next->nbint)
+		{
+			p2 = setcoord(e->gap * (x), e->gap * (y + 1), first->next->line[x]);
+			tracerseg(conv_iso(p1, e), conv_iso(p2, e), e);
+		}
+		x++;
+	}
+}
+
+void			draw(t_env *e)
+{
+	t_line		*first;
 	int			y;
 
 	y = 0;
 	first = e->first;
 	while (first)
 	{
-		x = 0;
-		while (x < first->nbint)
-		{
-			p1 = setcoord(e->gap * (x), e->gap * (y), first->line[x]);
-			if (x + 1 < first->nbint)
-			{
-				p2 = setcoord(e->gap * (x + 1), e->gap * (y), first->line[x + 1]);
-				tracerseg(conv_iso(p1, e), conv_iso(p2, e), e);
-			}
-			if (first->next && x < first->next->nbint)
-			{
-				p2 = setcoord(e->gap * (x), e->gap * (y + 1), first->next->line[x]);
-				tracerseg(conv_iso(p1, e), conv_iso(p2, e), e);
-			}
-			x++;
-		}
+		drawline(first, e, y);
 		first = first->next;
 		y++;
 	}

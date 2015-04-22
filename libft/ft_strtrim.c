@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 15:33:13 by chuang            #+#    #+#             */
-/*   Updated: 2014/11/08 17:22:35 by chuang           ###   ########.fr       */
+/*   Updated: 2015/04/22 15:30:09 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char		*ft_strtrim(char const *s)
 
 	frontsp = (ft_ftspace(s) > 0) ? ft_ftspace(s) : 0;
 	endsp = (ft_edspace(s) > 0) ? ft_edspace(s) : 0;
-	len = strlen(s) - frontsp - endsp;
+	len = ft_strlen(s) - frontsp - endsp;
 	if (frontsp + endsp == 0)
 		return (ft_strdup(s));
 	if (frontsp || endsp)

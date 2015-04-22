@@ -6,7 +6,7 @@
 #    By: chuang <chuang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/14 17:34:15 by chuang            #+#    #+#              #
-#    Updated: 2015/03/24 21:47:28 by chuang           ###   ########.fr        #
+#    Updated: 2015/04/22 15:28:50 by chuang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,12 @@ $(NAME): $(OBJS)
 %.o:%.c
 	gcc -o $@ -c $< $(CFLAGS) -I./includes -I./libft/includes
 
-fclean:
-	make -C libft clean
+clean:
 	$(RM) $(OBJS)
-	$(RM) $(NAME)
 
+fclean: clean
+	make -C libft clean
+	$(RM) $(NAME)
 
 re: fclean all
 

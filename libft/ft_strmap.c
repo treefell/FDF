@@ -6,7 +6,7 @@
 /*   By: chuang <chuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 13:35:09 by chuang            #+#    #+#             */
-/*   Updated: 2014/11/08 17:20:00 by chuang           ###   ########.fr       */
+/*   Updated: 2015/04/22 15:29:41 by chuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strmap(char const *s, char (*f)(char))
 	char	*frais;
 
 	poney = 0;
-	if ((frais = (char *)ft_memalloc(strlen(s) + 1)) == NULL)
+	if ((frais = (char *)ft_memalloc(ft_strlen(s) + 1)) == NULL)
 		return (NULL);
 	while (s[poney])
 	{
